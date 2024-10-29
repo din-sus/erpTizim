@@ -15,6 +15,7 @@ export class UsersService {
 
   async register(createUserDto: RegisterUserDto) {
     let check = await this.userRepo.findOne({where: {email: createUserDto.email}})
+    console.log(check)
 
     if(check) {
       return{
@@ -22,7 +23,7 @@ export class UsersService {
         message: 'You have registered before please login❗'
       }
     }else{
-      let registerUser = this.userRepo.create(check)
+      let registerUser = this.userRepo.create(createUserDto)
       await this.userRepo.save(registerUser)
 
       return {
