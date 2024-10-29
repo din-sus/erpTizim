@@ -1,18 +1,19 @@
 import { Body, Injectable, Req } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
+import { RegisterUserDto } from './dto/register-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { sign } from 'jsonwebtoken';
 import { Request } from 'express';
+import { LoginUserDto } from './dto/logn-user.dto';
 
 @Injectable()
 export class UsersService {
   constructor(@InjectRepository(User) private readonly userRepo: Repository<User>){}
 
 
-  async register(createUserDto: CreateUserDto) {
+  async register(createUserDto: RegisterUserDto) {
     let check = await this.userRepo.findOne({where: {email: createUserDto.email}})
 
     if(check) {
@@ -31,7 +32,7 @@ export class UsersService {
     }
   }
 
-  async login(createUserDto: CreateUserDto) {
+  async login(createUserDto: LoginUserDto) {
     let check = await this.userRepo.findOne({where: {email: createUserDto.email}})
 
     if(!check) {
@@ -72,7 +73,7 @@ export class UsersService {
   }
 
 
-  create(createUserDto: CreateUserDto) {
+  create(createUserDto: RegisterUserDto) {
     return 'This action adds a new user';
   }
 
@@ -86,22 +87,7 @@ export class UsersService {
   }
 
   async update(updateUserDto: UpdateUserDto) {
-    let check = await this.userRepo.findOne({where: {email: updateUserDto.email}})
-
-    if(!check) {
-      return {
-        success: false,
-        message: 'There is no such user❗'
-      }
-    }else{
-      let update = this.userRepo.merge(updateUserDto, check)
-      await this.userRepo.save(update)
-
-      return {
-        success: true,
-        message: 'Updated successfully✅'
-      }
-    }
+    
   }
 
   remove(id: number) {

@@ -13,14 +13,14 @@ import { VerifyRole } from './middleware/VerifyRole';
   imports: [TypeOrmModule.forRoot({
     type: 'postgres',
     host: 'localhost',
-    password: '1111',
-    port: 5433,
-    database: 'exam',
+    port: 5432,
     username: 'postgres',
-    autoLoadEntities: true,
-    entities: [User],
-    synchronize: true
-  }) ,UsersModule, CoursesModule, ModulesModule, AssignmentsModule],
+    password: '0490',
+    database: 'obshiy',
+    entities: [],
+    synchronize: true,
+    autoLoadEntities: true
+  }),UsersModule, CoursesModule, ModulesModule, AssignmentsModule, TypeOrmModule.forFeature([User])],
   controllers: [AppController],
   providers: [AppService],
 })

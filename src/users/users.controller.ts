@@ -1,25 +1,26 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Req } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
+import { RegisterUserDto } from './dto/register-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Request } from 'express';
+import { LoginUserDto } from './dto/logn-user.dto';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  create(@Body() createUserDto: CreateUserDto) {
+  create(@Body() createUserDto: RegisterUserDto) {
     return this.usersService.create(createUserDto);
   }
 
   @Post('register')
-  register(@Body() createUserDto: CreateUserDto) {
+  register(@Body() createUserDto: RegisterUserDto) {
     return this.usersService.register(createUserDto)
   }
 
   @Post('login')
-  login(@Body() createUserDto: CreateUserDto) {
+  login(@Body() createUserDto: LoginUserDto) {
     return this.usersService.login(createUserDto)
   }
 
