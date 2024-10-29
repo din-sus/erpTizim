@@ -4,9 +4,10 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
-import { sign } from 'jsonwebtoken';
+import { sign, verify } from 'jsonwebtoken';
 import { Request } from 'express';
 import { LoginUserDto } from './dto/logn-user.dto';
+import { LogoutUserDto } from './dto/logout-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -53,9 +54,9 @@ export class UsersService {
     }
   }
 
-  async logout(@Req() request: Request, @Body() email: string) {
-    let check = await this.userRepo.findOne({where: {email}})
-    let token = request.headers.token
+  async logout(@Req() request: Request, logoutUserDto: LogoutUserDto) {
+    let check = await this.userRepo.findOne({where: {email: logoutUserDto.email}})
+    let token:any = request.headers.token
 
     if(!check){
       return {
@@ -79,8 +80,8 @@ export class UsersService {
   }
 
 
-  findAll() {
-    return `This action returns all users`;
+  async findAll() {
+    return await this.userRepo.find()
   }
 
   findOne(id: number) {

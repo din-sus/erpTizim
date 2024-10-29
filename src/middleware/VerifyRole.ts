@@ -18,7 +18,7 @@ export class VerifyRole implements NestMiddleware{
             return
         }
 
-        let email: any = verify(token, 'secret')
+        let {email}: any = verify(token, 'secret')
 
         if(!email) {
             res.send({

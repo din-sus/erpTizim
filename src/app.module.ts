@@ -29,7 +29,7 @@ export class AppModule implements NestModule{
     consumer
       .apply(VerifyRole)
       .forRoutes(
-        { path: '/', method: RequestMethod.ALL }
+        { path: '/users/logout', method: RequestMethod.ALL }
       );
   }
 }

@@ -4,6 +4,7 @@ import { RegisterUserDto } from './dto/register-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Request } from 'express';
 import { LoginUserDto } from './dto/logn-user.dto';
+import { LogoutUserDto } from './dto/logout-user.dto';
 
 @Controller('users')
 export class UsersController {
@@ -25,8 +26,8 @@ export class UsersController {
   }
 
   @Post('logout')
-  logout(@Req() request: Request, email: string) {
-    return this.usersService.logout(request, email)
+  logout(@Req() request: Request, @Body() logoutUserDto: LogoutUserDto) {
+    return this.usersService.logout(request, logoutUserDto)
   }
 
   @Get()
