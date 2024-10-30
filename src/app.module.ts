@@ -16,7 +16,7 @@ import { VerifyRole } from './middleware/VerifyRole';
     port: 5432,
     username: 'postgres',
     password: '0490',
-    database: 'obshiy',
+    database: 'exam',
     entities: [],
     synchronize: true,
     autoLoadEntities: true

@@ -5,17 +5,17 @@ export class User {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column({nullable: true})
+    @Column()
     name: string
 
     @Column({unique: true})
-    @Column({nullable: true})
+    @Column()
     email: string
 
-    @Column({nullable: true})
+    @Column()
     password: string
 
-    @Column({nullable: true})
+    @Column({default: 'user'})
     role: string
 
     // courses
