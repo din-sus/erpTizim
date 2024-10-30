@@ -1,4 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Assignment } from "src/assignments/entities/assignment.entity";
+import { Course } from "src/courses/entities/course.entity";
+import { Column, Entity, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class User {
@@ -9,7 +11,7 @@ export class User {
     name: string
 
     @Column({unique: true})
-    @Column()
+
     email: string
 
     @Column()
@@ -19,4 +21,14 @@ export class User {
     role: string
 
     // courses
+    @ManyToOne(() => Course, (course) => course.user)
+    course: Course
+
+    // teacher's courses
+    @OneToMany(() => Course, (course) => course.teacher)
+    courseTeacher: Course[]
+
+    // assignments
+    @OneToOne((type) => Assignment, (assignment) => assignment.user)
+    assignment: Assignment
 }

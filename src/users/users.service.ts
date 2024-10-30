@@ -48,7 +48,7 @@ export class UsersService {
 
       return {
         success: true,
-        message: 'You have registered logined',
+        message: 'You have logined successfully✅',
         token: access_token
       }
     }
@@ -81,7 +81,7 @@ export class UsersService {
 
 
   async findAll() {
-    return await this.userRepo.find()
+    return await this.userRepo.find({relations: ['course', 'courseTeacher']})
   }
 
   findOne(id: number) {
