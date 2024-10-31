@@ -17,7 +17,7 @@ export class AssignmentsController {
 
   @Post('homework/send')
   @UsePipes(new ValidationPipe)
-  userHomeWork(@Req() request: Request, @Body() sendHw: SendHwDto, moduleName: string) {
+  userHomeWork(@Req() request: Request, @Body() sendHw: SendHwDto, @Body() moduleName: string) {
     return this.assignmentsService.userHw(sendHw, moduleName, request);
   }
 

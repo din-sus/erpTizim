@@ -29,6 +29,6 @@ export class User {
     courseTeacher: Course[]
 
     // assignments
-    @OneToOne((type) => Assignment, (assignment) => assignment.user, { onDelete: 'CASCADE' })
-    assignment: Assignment
+    @OneToMany((type) => Assignment, (assignment) => assignment.user, { onDelete: 'CASCADE' })
+    assignment: Assignment[]
 }

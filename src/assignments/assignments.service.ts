@@ -54,7 +54,7 @@ export class AssignmentsService {
   async userHw(sendHw: SendHwDto, @Body() moduleName: string, @Req() request: Request) {
     try {
       let check = await this.assignmentRepo.findOne({where: {name: sendHw.name}})
-      let findModule = await this.moduleRepo.findOne({where: {name: moduleName}})
+      let findModule = await this.moduleRepo.findOne({where: {name: moduleName['moduleName']}})
       let token: any = request.headers.token
       let {email}: any = verify(token, 'secret')
       let findUser = await this.userRepo.findOne({where: {email: email}})
@@ -86,7 +86,7 @@ export class AssignmentsService {
               let sendingHw = this.assignmentRepo.create(sendHw)
               sendingHw.module = findModule
               sendingHw.user = findUser
-              await this.assignmentRepo.save(sendHw)
+              await this.assignmentRepo.save(sendingHw)
 
               return {
                 success: true,

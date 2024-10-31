@@ -1,6 +1,6 @@
 import { Assignment } from "src/assignments/entities/assignment.entity";
 import { Course } from "src/courses/entities/course.entity";
-import { Column, CreateDateColumn, Entity, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Modules {
@@ -21,6 +21,6 @@ export class Modules {
     course: Course
 
     // assignment
-    @OneToOne((type) => Assignment, (assignment) => assignment.module, { onDelete: 'CASCADE' })
+    @OneToMany((type) => Assignment, (assignment) => assignment.module, { onDelete: 'CASCADE' })
     assignment: Assignment
 }

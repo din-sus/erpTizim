@@ -20,10 +20,10 @@ export class Assignment {
     })
     create_at: Date;
     // user
-    @OneToOne((type) => User, (user) => user.assignment, { onDelete: 'CASCADE' })
+    @ManyToOne((type) => User, (user) => user.assignment, { onDelete: 'CASCADE' })
     user: User
 
     // module
-    @OneToOne((type) => Modules, (module) => module.assignment, { onDelete: 'CASCADE' })
+    @ManyToOne((type) => Modules, (module) => module.assignment, { onDelete: 'CASCADE' })
     module: Modules
 }
