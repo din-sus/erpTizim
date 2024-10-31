@@ -20,14 +20,14 @@ export class Course {
     level: string
 
     // users
-    @OneToMany(() => User, (user) => user.course)
+    @OneToMany(() => User, (user) => user.course, { onDelete: 'CASCADE' })
     user: User[]
 
     // teacher
-    @ManyToOne(() => User, (user) => user.courseTeacher)
+    @ManyToOne(() => User, (user) => user.courseTeacher, { onDelete: 'CASCADE' })
     teacher: User
     
     // modules
-    @OneToMany(() => Modules, (module) => module.course)
+    @OneToMany(() => Modules, (module) => module.course, { onDelete: 'CASCADE' })
     module: Modules[]
 }

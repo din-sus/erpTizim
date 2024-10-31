@@ -10,13 +10,18 @@ export class CoursesController {
 
   @Post('create')
   @UsePipes(new ValidationPipe)
-  create(@Body() createCourseDto: CreateCourseDto) {
-    return this.coursesService.create(createCourseDto);
+  create(@Body() createCourseDto: CreateCourseDto, moduleName: string) {
+    return this.coursesService.create(createCourseDto, moduleName);
   }
 
   @Post('find')
   find(@Body() courseName: string) {
     return this.coursesService.findCourse(courseName);
+  }
+
+  @Get(':id/modules')
+  findOne(@Param('id') id: string) {
+    return this.coursesService.findOne(+id);
   }
 
   @Post('subscribe')

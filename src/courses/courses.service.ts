@@ -1,4 +1,4 @@
-import { Body, Injectable, Req } from '@nestjs/common';
+import { Body, Injectable, Param, Req } from '@nestjs/common';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -7,14 +7,16 @@ import { Repository } from 'typeorm';
 import { User } from 'src/users/entities/user.entity';
 import { Request } from 'express';
 import { verify } from 'jsonwebtoken';
+import { Modules } from 'src/modules/entities/module.entity';
 
 @Injectable()
 export class CoursesService {
-  constructor(@InjectRepository(Course) private readonly courseRepo: Repository<Course>, @InjectRepository(User) private readonly userRepo: Repository<User>){}
+  constructor(@InjectRepository(Course) private readonly courseRepo: Repository<Course>, @InjectRepository(User) private readonly userRepo: Repository<User>, @InjectRepository(Modules) private readonly moduleRepo: Repository<Modules>){}
 
-  async create(createCourseDto: CreateCourseDto) {
+  async create(createCourseDto: CreateCourseDto, @Body() moduleName: string) {
     try {
       let check = await this.courseRepo.findOne({where: {name: createCourseDto.name}})
+      let findModule = await this.moduleRepo.findOne({where: {name: moduleName}})
 
       if(check) {
         return {
@@ -23,6 +25,7 @@ export class CoursesService {
         }
       }else {
         let createCourse = this.courseRepo.create(createCourseDto)
+        createCourse.module = [findModule]
         await this.courseRepo.save(createCourse)
 
         return {
@@ -131,11 +134,27 @@ export class CoursesService {
 
   async findAll() {
     try {
-      return await this.courseRepo.find()
+      return await this.courseRepo.find({relations: ['user', 'teacher']})
     } catch (error) {
       return {
         success: false,
         message: error.message
+      }
+    }
+  }
+
+  async findOne(id: number){
+    let check = await this.courseRepo.findOne({where: {id}, relations: ['module']})
+
+    if(!check){
+      return {
+        success: false,
+        message: 'There is no such course💔'
+      }
+    }else{
+      return {
+        success: true,
+        data: check
       }
     }
   }
@@ -169,7 +188,7 @@ export class CoursesService {
           message: 'There is no such course❗'
         }
       }else {
-        let deleteCourse = this.courseRepo.delete(check)
+        let deleteCourse = this.courseRepo.delete(id)
 
         return{
           success: true,

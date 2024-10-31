@@ -8,6 +8,7 @@ import { AssignmentsModule } from './assignments/assignments.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './users/entities/user.entity';
 import { VerifyRole } from './middleware/VerifyRole';
+import { TeacherMiddleware } from './middleware/TeacherMiddleware';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -38,6 +39,23 @@ export class AppModule implements NestModule{
         { path: '/courses/update', method: RequestMethod.ALL },
         { path: '/courses/delete', method: RequestMethod.ALL },
         { path: '/courses/add/teacher', method: RequestMethod.ALL },
+
+        // modules
+        {path: '/modules/create', method: RequestMethod.ALL},
+        {path: '/modules/update', method: RequestMethod.ALL},
+        {path: '/modules/delete', method: RequestMethod.ALL},
+
+        // assignments
+        {path: '/assignments/create', method: RequestMethod.ALL},
+        {path: '/assignments/update', method: RequestMethod.ALL},
+        {path: '/assignments/mark', method: RequestMethod.ALL},
+        {path: '/assignments/delete', method: RequestMethod.ALL},
       );
+
+    consumer
+      .apply(TeacherMiddleware)
+      .forRoutes(
+        {path: '/assignments/mark', method: RequestMethod.ALL},
+      )
   }
 }

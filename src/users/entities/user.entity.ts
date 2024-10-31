@@ -21,14 +21,14 @@ export class User {
     role: string
 
     // courses
-    @ManyToOne(() => Course, (course) => course.user)
+    @ManyToOne(() => Course, (course) => course.user, { onDelete: 'CASCADE' })
     course: Course
 
     // teacher's courses
-    @OneToMany(() => Course, (course) => course.teacher)
+    @OneToMany(() => Course, (course) => course.teacher, { onDelete: 'CASCADE' })
     courseTeacher: Course[]
 
     // assignments
-    @OneToOne((type) => Assignment, (assignment) => assignment.user)
+    @OneToOne((type) => Assignment, (assignment) => assignment.user, { onDelete: 'CASCADE' })
     assignment: Assignment
 }

@@ -81,7 +81,13 @@ export class UsersService {
 
 
   async findAll() {
-    return await this.userRepo.find({relations: ['course', 'courseTeacher']})
+    try {
+      return await this.userRepo.find({relations: ['course', 'courseTeacher']})
+    } catch (error) {
+      return {
+        message: error.message
+      }
+    }
   }
 
   findOne(id: number) {
